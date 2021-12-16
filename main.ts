@@ -31,7 +31,7 @@ basic.forever(function () {
             break;
         case tempState.COOLfi:
             if(ctemp >= 25){
-                for (let e = 0; e == 256; e++) {
+                for (let e = 0; e < 256; e++) {
                 PixelArray.setBrightness(e)
                 PixelArray.easeBrightness()
                 }
@@ -42,27 +42,35 @@ basic.forever(function () {
             // PixelArray.show()
             break;
         case tempState.COOLfo:
-            for (let h = 255; h == 0; h--) {
-                PixelArray.setBrightness(h)
+            for (let h = 0; h < 256; h++) {
+                PixelArray.setBrightness(255 - h)
                 PixelArray.easeBrightness()
             }
             break;
         case tempState.WARMfi:
-            for (let e = 0; e == 256; e++) {
+            for (let e = 0; e < 256; e++) {
                 PixelArray.setBrightness(e)
                 PixelArray.easeBrightness()
             }
             break;
         case tempState.WARMfo:
-            for (let h = 255; h == 0; h--) {
-                PixelArray.setBrightness(h)
+            for (let f = 0; f < 256; f++) {
+                PixelArray.setBrightness(255 - f)
                 PixelArray.easeBrightness()
             }
             break;
 
     }
-    if(ctemp <= 25){
-        currentState = currentState == tempState.COOLfi ? 0 : currentState + 1
+    if(ctemp < 25){
+        currentState = tempState.COOLfo
+        currentState = tempState.COOLfi
+        PixelArray.showColor(neopixel.rgb(0, 0, 255))
+        PixelArray.show()
+    }else if(ctemp > 26){
+        currentState = tempState.WARMfo
+        currentState = tempState.WARMfi
+        PixelArray.showColor(neopixel.rgb(255, 0, 0))
+        PixelArray.show()
     }
 })
 
